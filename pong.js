@@ -1,3 +1,4 @@
+
 class Vec {
   constructor(x = 0, y = 0) {
     this.x = x;
@@ -52,10 +53,10 @@ class Pong {
     this._context = canvas.getContext('2d');
 
     this._accumulator = 0;
-    this.step = 1/120;
+    this.step = 1 / 120;
 
     this.ball = new Ball;
-  
+
     this.players = [
       new Player,
       new Player
@@ -68,9 +69,9 @@ class Pong {
     })
 
     let lastTime;
-    const callback  = (millis) => {
+    const callback = (millis) => {
       if (lastTime) {
-        this.update((millis - lastTime ) / 1000);
+        this.update((millis - lastTime) / 1000);
         this.draw();
       }
       lastTime = millis;
@@ -98,7 +99,7 @@ class Pong {
       const context = canvas.getContext('2d');
       context.fillStyle = '#fff';
       str.split('').forEach((fill, i) => {
-        if(fill === '1') {
+        if (fill === '1') {
           context.fillRect(
             (i % 3) * this.CHAR_PIXEL,
             (i / 3 | 0) * this.CHAR_PIXEL,
@@ -118,20 +119,20 @@ class Pong {
       player.left < ball.right &&
       player.right > ball.left &&
       player.top < ball.bottom &&
-      player.bottom > ball.top ) {
+      player.bottom > ball.top) {
 
-        const len = ball.vel.len;
-        ball.vel.x = -ball.vel.x;
-        ball.vel.y += 300 * (Math.random() - .5);
-        ball.vel.len = len * 1.05;
+      const len = ball.vel.len;
+      ball.vel.x = -ball.vel.x;
+      ball.vel.y += 300 * (Math.random() - .5);
+      ball.vel.len = len * 1.05;
 
-      }
+    }
   }
 
   draw() {
     this._context.fillStyle = '#000';
     this._context.fillRect(0, 0, this._canvas.width, this._canvas.height);
-    
+
     this.drawRect(this.ball);
     this.players.forEach(player => this.drawRect(player));
 
@@ -154,15 +155,15 @@ class Pong {
     const CHAR_W = this.CHAR_PIXEL * 4;
     this.players.forEach((player, index) => {
       const chars = player.score.toString().split('');
-      const offset = 
-        align * 
-        (index + 1) - 
-        (CHAR_W * chars.length / 2) + 
+      const offset =
+        align *
+        (index + 1) -
+        (CHAR_W * chars.length / 2) +
         this.CHAR_PIXEL / 2;
 
       chars.forEach((char, pos) => {
         this._context.drawImage(
-          this.CHARS[char|0],
+          this.CHARS[char | 0],
           offset + pos * CHAR_W, 20)
       });
 
@@ -190,7 +191,7 @@ class Pong {
     this.ball.pos.y += this.ball.vel.y * dt;
 
     if (this.ball.left < 0 || this.ball.right > this._canvas.width) {
-      const  playerId = this.ball.vel.x < 0 | 0;
+      const playerId = this.ball.vel.x < 0 | 0;
       this.players[playerId].score++;
       this.reset();
 
@@ -208,7 +209,7 @@ class Pong {
 
   update(dt) {
     this._accumulator += dt;
-    while(this._accumulator > this.step) {
+    while (this._accumulator > this.step) {
       this.simulate(this.step);
       this._accumulator -= this.step;
     }
